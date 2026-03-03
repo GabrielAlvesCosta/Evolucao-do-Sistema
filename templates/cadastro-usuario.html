@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" href="/static/cadastro-usuario.css">
+</head>
+
+<body>
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
+    <form action="/cadastro-usuario" method="POST">
+
+        <h2>Cadastro de Usuário</h2>
+
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ (campos|default({})).get('nome', '') }}" required>
+
+        <label for="cpf">CPF:</label>
+        <input type="number" id="cpf" name="cpf" required>
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" name="idade" value="{{ (campos|default({})).get('idade', '') }}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ (campos|default({})).get('email', '') }}" required>
+
+        <label for="senha">Senha:</label>
+        <div class="password-field">
+            <input type="password" id="senha" name="senha" required>
+            <span id="toggleSenha" class="toggle-password" title="Mostrar Senha">
+                <svg xmlns="http://www.w3.org/2000/svg&quot; width="20" height="20"
+                     viewBox="0 0 24 24" fill="none"
+                     stroke="#374151" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </span>
+
+        </div>
+
+        <button type="submit">Cadastrar</button>
+
+    </form>
+    <script>
+        const senhaInput = document.getElementById('senha');
+        const toggle = document.getElementById('toggleSenha');
+        const eyeIcon = toggle.querySelector('svg');
+
+        toggle.addEventListener('click', function () {
+            const visible = senhaInput.type == 'text';
+            senhaInput.type = visible ? 'password' : 'text';
+            eyeIcon.setAttribute('stroke', visible ? '#374151' : '#2563eb');
+        });
+    </script>
+
+</body>
+</html>

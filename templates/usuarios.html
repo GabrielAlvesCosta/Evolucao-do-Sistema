@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lista de Usuários</title>
+    <link rel="stylesheet" href="/static/usuarios.css" />
+</head>
+
+<body>
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
+
+    <div class="container">
+        <h1>Usuários Cadastrados <p>Total de usuários: {{ usuarios|length }}</p></h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <!-- CPF agora mostrado como identificador único -->
+                    <th>CPF</th>
+                    <th>E-mail</th>
+                    <th>Idade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.nome }}</td>
+                    <td>{{ usuario.cpf }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.idade }}</td>
+                    <td>
+                        <form action="{{ url_for('deletar_usuario', cpf=usuario.cpf) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</button>
+                        </form>
+                    </td> 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>
+            
+</body>
+
+</html>
