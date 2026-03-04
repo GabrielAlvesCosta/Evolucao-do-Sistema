@@ -40,6 +40,21 @@ def contar_usuarios():
     string_length = len(usuarios)
     return render_template('usuarios.html', length=string_length, text=usuarios)
 
+def buscar_usuario_por_email(email):
+    usuarios = carregar_usuarios()
+    for usuario in usuarios:
+        if usuario.get("email") == email:
+            return usuario
+    return None
+
+def salvar_todos_usuarios(usuarios):
+    try:
+        with open("usuarios.json", "w", encoding="utf-8") as arquivo:
+            json.dump(usuarios, arquivo, indent=4)
+        return True
+    except:
+        return False
+
 @app.route("/")
 def home():
     # Renderiza a página inicial com o formulário de cadastro
@@ -112,6 +127,12 @@ def login():
             return render_template("login.html", campos=dados)
     return render_template("login.html", campos={})
        
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Logout realizado com sucesso.", "sucesso")
+    return redirect(url_for("login"))
+
 @app.route("/usuarios/json", methods=["GET"])
 def buscar_usuarios_json():
     usuarios = carregar_usuarios()
@@ -121,6 +142,59 @@ def buscar_usuarios_json():
 def buscar_usuarios():
     usuarios = carregar_usuarios()
     return render_template("usuarios.html", usuarios = usuarios)
+
+@app.route("/usuarios/editar/<cpf>", methods=["GET", "POST"])
+def editar_usuario(cpf):
+
+    if "usuario_id" not in session:
+        flash("Não autorizado.", "erro")
+        return redirect(url_for("login"))
+
+    usuarios = carregar_usuarios()
+
+    # ✅ Busca usuário pelo CPF
+    usuario = next((u for u in usuarios if u["cpf"] == cpf), None)
+
+    if not usuario:
+        flash("Usuário não encontrado.", "erro")
+        return redirect(url_for("buscar_usuarios"))
+
+    # --------------------------
+    # GET → Carrega formulário
+    # --------------------------
+    if request.method == "GET":
+        return render_template("editar_usuario.html", usuario=usuario)
+
+    # --------------------------
+    # POST → Atualiza dados
+    # --------------------------
+
+    nome = request.form.get("nome")
+    email = request.form.get("email")
+    idade = int(request.form.get("idade"))
+    senha = request.form.get("senha")
+
+    # ✅ Validação de idade também no UPDATE
+    if idade < 18:
+        flash("Usuário deve ser maior de 18 anos.", "erro")
+        return redirect(url_for("editar_usuario", cpf=cpf))
+
+    usuario["nome"] = nome
+    usuario["email"] = email
+    usuario["idade"] = idade
+
+    # ✅ Atualiza senha somente se preenchida
+    if senha:
+        usuario["senha"] = generate_password_hash(senha)
+
+    status = salvar_todos_usuarios(usuarios)
+
+    if status:
+        flash("Usuário atualizado com sucesso.", "sucesso")
+    else:
+        flash("Erro ao atualizar usuário.", "erro")
+
+    return redirect(url_for("buscar_usuarios"))
 
 @app.route("/deletar/<cpf>", methods=["POST"])
 def deletar_usuario(cpf):
