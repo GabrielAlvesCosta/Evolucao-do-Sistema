@@ -122,3 +122,49 @@ button[type="submit"]:hover {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+a {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    position: relative;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+a:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 37%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.password-field .toggle-password svg {
+    display: block;
+}
