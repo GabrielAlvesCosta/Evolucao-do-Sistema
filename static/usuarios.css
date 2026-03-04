@@ -123,3 +123,31 @@ tbody tr:last-child td {
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+a {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #111184;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    position: relative;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+a:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+}
