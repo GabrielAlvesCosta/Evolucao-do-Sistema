@@ -119,8 +119,8 @@ def login():
 
         if usuario and check_password_hash(usuario.get("senha"), senha):
             flash("Login bem-sucedido!", "sucesso")
-            session["usuario_cpf"] = usuario.get("id") 
-            session["usuario_senha"] = usuario.get("nome")
+            session["usuario_id"] = usuario.get("id") 
+            session["usuario_senha"] = usuario.get("senha")
             return redirect(url_for("buscar_usuarios"))
         else:
             flash("CPF ou Senha incorretos!", "erro")
@@ -142,6 +142,7 @@ def buscar_usuarios_json():
 def buscar_usuarios():
     usuarios = carregar_usuarios()
     return render_template("usuarios.html", usuarios = usuarios)
+
 
 @app.route("/usuarios/editar/<cpf>", methods=["GET", "POST"])
 def editar_usuario(cpf):
@@ -196,28 +197,34 @@ def editar_usuario(cpf):
 
     return redirect(url_for("buscar_usuarios"))
 
-@app.route("/deletar/<cpf>", methods=["POST"])
-def deletar_usuario(cpf):
+@app.route('/api/usuarios/<cpf>', methods=['PUT'])
+def api_atualizar_usuario(cpf):
+    dados = request.json
+    # buscar usuário, validar, atualizar campos e chamar salvar_todos_usuarios
+    return jsonify({'sucesso': True}), 200
+
+@app.route("/usuarios/deletar", methods=["POST"])
+def deletar_usuario():
+    if "usuario_id" not in session:
+        flash("Não autorizado.", "erro")
+        return redirect(url_for("login"))
+
+    cpf = request.form.get("cpf")
+    if not cpf:
+        flash("CPF necessário para exclusão.", "erro")
+        return redirect(url_for('buscar_usuarios'))
+
+    usuarios = carregar_usuarios()
+    novos = [u for u in usuarios if u.get("cpf") != cpf]
 
     try:
-        usuarios = carregar_usuarios()
-        
-        tamanho_original = len(usuarios)
-        usuarios_filtrados = [u for u in usuarios if u.get("cpf") != cpf]
-
-        if len(usuarios_filtrados) == tamanho_original:
-            flash("Usuário não encontrado.", "erro")
-            return redirect(url_for("buscar_usuarios"))
-
         with open("usuarios.json", "w", encoding="utf-8") as arquivo:
-            json.dump(usuarios_filtrados, arquivo, indent=4, ensure_ascii=False)
-
-        flash("Usuário deletado com sucesso!", "sucesso")
-        
+            json.dump(novos, arquivo, indent=4)
+        flash("Usuário removido.", "sucesso")
     except Exception as e:
-        flash(f"Erro ao deletar: {str(e)}", "erro")
-        
-    return redirect(url_for("buscar_usuarios"))
+        flash(f"Erro ao deletar: {e}", "erro")
+
+    return redirect(url_for('buscar_usuarios'))
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
