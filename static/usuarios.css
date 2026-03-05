@@ -89,48 +89,59 @@ tbody tr:last-child td {
     transform: translateY(-1px);
 }
 
-.flash-container {
+.contador strong {
+    color: #2563eb;
+    font-size: 16px;
+}
+
+/* ===========================
+   BOTÕES
+=========================== */
+
+button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+/* Botão Editar */
+.btn-editar {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-editar:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Botão Excluir */
+.btn-excluir {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-excluir:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Organização dos botões lado a lado */
+.acoes {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    position: fixed;
-    top: 20px;
-    z-index: 1000; 
+    gap: 8px;
 }
 
-.alert {
-    min-width: 300px;
-    max-width: 500px;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    text-align: center;
-    font-family: sans-serif;
-    font-weight: bold;
-    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-}
-
-.alert-sucesso {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.alert-erro {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-a {
+.sair {
+    background-color: #111184;
+    color: white;
     width: 100%;
     padding: 10px;
     border: none;
     border-radius: 8px;
-    background-color: #111184;
-    color: white;
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
@@ -143,7 +154,7 @@ a {
     justify-content: center;
 }
 
-a:hover {
+.sair:hover {
     background-color: #1d4ed8;
     transform: translateY(-2px);
 }
