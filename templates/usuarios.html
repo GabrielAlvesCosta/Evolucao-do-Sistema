@@ -22,7 +22,7 @@
 </div>
 
     <div class="container">
-        <h1>Usuários Cadastrados <p>Total de usuários: {{ usuarios|length }}</p></h1>
+        <h1>Usuários Cadastrados <p>Total de usuários: {{ usuarios|length }}</p> <input type="text" placeholder="Buscar por nome ou CPF">   </h1>
         <table>
             <thead>
                 <tr>
@@ -42,18 +42,27 @@
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.idade }}</td>
                     <td>
-                         <a href="{{ url_for('editar_usuario', cpf=usuario.cpf) }}">
+                        <div class="acoes">
+
+        <a href="{{ url_for('editar_usuario', cpf=usuario.cpf) }}">
             <button type="button" class="btn-editar">Editar</button>
         </a>
-                        <form action="{{ url_for('deletar_usuario', cpf=usuario.cpf) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</button>
-                        </form>
+
+        <form action="{{ url_for('deletar_usuario') }}"
+              method="post"
+              onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+
+            <input type="hidden" name="cpf" value="{{ usuario.cpf }}" />
+            <button type="submit" class="btn-excluir">Excluir</button>
+        </form>
+
+    </div>
                     </td> 
                 </tr>
                 {% endfor %}
             </tbody>
         </table> 
-        <a href="/logout">Sair</a>
+        <a href="/logout" class="sair">Sair</a>
     </div>
     
             
