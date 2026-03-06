@@ -127,7 +127,7 @@ def cadastrar_usuario():
         if status:
             # após cadastro redireciona para a lista de usuários
             flash("Usuário cadastrado com sucesso.", "sucesso")
-            return redirect(url_for('buscar_usuarios'))
+            return redirect(url_for('login'))
         else:
             # caso de erro de escrita
             flash("Não foi possível cadastrar o usuário.", "erro")
