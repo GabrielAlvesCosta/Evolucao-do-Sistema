@@ -57,11 +57,13 @@ def salvar_todos_usuarios(usuarios):
         return False
     
 def cpf_valido(cpf):
+    # Remove caracteres não numéricos
     cpf = re.sub(r'\D', '', cpf)
 
     if len(cpf) != 11 or cpf == cpf[0] * 11:
         return False
 
+    # Cálculo dos dígitos verificadores
     for i in range(9, 11):
         soma = sum(int(cpf[num]) * ((i + 1) - num) for num in range(i))
         digito = (soma * 10 % 11) % 10
@@ -74,9 +76,17 @@ def home():
     # Renderiza a página inicial com o formulário de cadastro
     return render_template("index.html", campos={})
 
+@app.after_request
+def add_header(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 @app.route("/cadastro-usuario", methods=["GET", "POST"])
 def cadastrar_usuario():
     if request.method == "POST":
+        # Recupera os dados enviados pelo formulário HTML
         dados = request.form
         nome = request.form.get("nome")
         cpf_sujo = dados.get("cpf")
@@ -108,7 +118,7 @@ def cadastrar_usuario():
             "email": email,
             "idade": idade,
             "senha": senha_hash,
-            "cargo": "admin" if cpf_limpo == "08808494446" else "comum"
+            "cargo": "admin" if cpf_limpo == "08808494446" else "comum" # Exemplo de CPF admin
         }
 
         # tenta salvar usando a função auxiliar
@@ -156,31 +166,39 @@ def buscar_usuario():
     mensagem_erro = None
 
     if termo:
+        # Limpa o termo caso o usuário digite CPF com pontos para comparar com o banco limpo
         termo_cpf_limpo = re.sub(r'\D', '', termo)
         
         for u in todos_usuarios:
+            # Comparação EXATA (Igualdade estrita)
             nome_exato = (u.get("nome") == termo) 
             cpf_exato = (u.get("cpf") == termo_cpf_limpo)
             
             if nome_exato or cpf_exato:
                 usuarios_filtrados.append(u)
         
+        # Se houve busca mas ninguém foi encontrado exatamente
         if not usuarios_filtrados:
             mensagem_erro = f"Erro: Nenhum usuário encontrado com o Nome ou CPF exato: '{termo}'"
     else:
+        # Se não houver busca, mostra todos normalmente
         usuarios_filtrados = todos_usuarios
 
-    return render_template("usuarios.html", usuarios=usuarios_filtrados, busca=termo, erro_busca=mensagem_erro)
+    return render_template("usuarios.html", 
+                           usuarios=usuarios_filtrados, 
+                           busca=termo, 
+                           erro_busca=mensagem_erro)
 
 @app.route("/ordem-usuarios")
 def ordem_usuarios():
     termo = request.args.get("termo", "").strip()
-    ordem = request.args.get("ordem", "") 
+    ordem = request.args.get("ordem", "") # Pega 'asc' ou 'desc'
     
     todos_usuarios = carregar_usuarios()
     usuarios_filtrados = []
     mensagem_erro = None
 
+    # --- Lógica de Filtro (Igualdade Exata) ---
     if termo:
         termo_cpf_limpo = re.sub(r'\D', '', termo)
         for u in todos_usuarios:
@@ -192,12 +210,19 @@ def ordem_usuarios():
     else:
         usuarios_filtrados = todos_usuarios
 
+    # --- Lógica de Ordenação por Idade ---
     if ordem == "asc":
+        # Ordena do menor para o maior
         usuarios_filtrados = sorted(usuarios_filtrados, key=lambda x: int(x.get("idade", 0)))
     elif ordem == "desc":
+        # Ordena do maior para o menor (reverse=True)
         usuarios_filtrados = sorted(usuarios_filtrados, key=lambda x: int(x.get("idade", 0)), reverse=True)
 
-    return render_template("usuarios.html", usuarios=usuarios_filtrados, busca=termo, ordem=ordem, erro_busca=mensagem_erro)
+    return render_template("usuarios.html", 
+                           usuarios=usuarios_filtrados, 
+                           busca=termo, 
+                           ordem=ordem,
+                           erro_busca=mensagem_erro)
 
 @app.route("/logout")
 def logout():
@@ -212,8 +237,13 @@ def buscar_usuarios_json():
 
 @app.route("/usuarios", methods=["GET"])
 def buscar_usuarios():
+
+    if "usuario_id" not in session:
+        flash("Acesso negado. Por favor, faça login.", "erro")
+        return redirect(url_for("login"))
+        
     usuarios = carregar_usuarios()
-    return render_template("usuarios.html", usuarios = usuarios)
+    return render_template("usuarios.html", usuarios=usuarios)
 
 
 @app.route("/usuarios/editar/<cpf>", methods=["GET", "POST"])
