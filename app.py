@@ -245,7 +245,6 @@ def buscar_usuarios():
     usuarios = carregar_usuarios()
     return render_template("usuarios.html", usuarios=usuarios)
 
-
 @app.route("/usuarios/editar/<cpf>", methods=["GET", "POST"])
 def editar_usuario(cpf):
     if "usuario_id" not in session:
