@@ -1,26 +1,20 @@
 [
     {
-        "id": "50e7eccd-ffc4-48d6-bd36-a4eaaafb9127",
-        "nome": "Gabriel",
-        "cpf": "1",
-        "email": "gollumalvescosta@gmail.com",
-        "idade": "18",
-        "senha": "scrypt:32768:8:1$M0RBKw2KWrwFsNYt$3335b18c7ca27b18b211111e92630d558fdf58a389a88fa352049d8f24507f6aad36437e775a37fd5586a0cdf11720d9889b7c3e0040c0a7ba4abcbad11d3e5f"
+        "id": "1e1c9354-ac6d-4495-8d77-2d21276fe73d",
+        "nome": "Gabr",
+        "cpf": "08808494446",
+        "email": "gollulvescsta@gmail.com",
+        "idade": 19,
+        "senha": "scrypt:32768:8:1$VSsJ3ZSXJpKNpDKu$ecb97ab856e04bffee7362af39b0da328e0f034b7402322f2d955aa04f0f9ea1a89171e060f72dc0c8221345d499cdee06c6cddeae64295b34bcc48dfa211239",
+        "cargo": "admin"
     },
     {
-        "id": "f682aef5-4bdb-40d2-bbdb-288c248c278f",
-        "nome": "Gabriel",
-        "cpf": "3",
-        "email": "gollumalvescosta@gmail.com",
-        "idade": "18",
-        "senha": "scrypt:32768:8:1$sknU6YbaG6cUHJ9r$c7649a9db90e9ea7038ce3afef858d343847be30555073debe308cf7482daf30a0219b651bc6d29f0287aa4aafc4962513470f3bcd3bee2f246f3b04da734a6c"
-    },
-    {
-        "id": "c348305f-789e-4ecf-b3de-a639d3604f80",
-        "nome": "Gabriel",
-        "cpf": "4",
-        "email": "gollumalvescosta@gmail.com",
-        "idade": "18",
-        "senha": "scrypt:32768:8:1$ZhDJoK2K8QGXtxum$1643521e79df92989c2619a28056f568978ba705e9fd919c1e8528d1eda37d9df99309cba7eb3f0fe47862bdae020af1c4b5c64428c0b5c778b436577abff649"
+        "id": "e2c8c3ad-e602-4e89-88fe-c55b95d7a3a7",
+        "nome": "c",
+        "cpf": "02178756450",
+        "email": "bc@email.com",
+        "idade": 50,
+        "senha": "scrypt:32768:8:1$Af19omJYAGsPTMRD$309ad8589860a630d9b2d815554f2666138a96527c6f59d158c1ee0098f67afc89243dd89707b29f99ff3129cb00271bdc057ce4e8611679b9449814e5142cd7",
+        "cargo": "comum"
     }
 ]
