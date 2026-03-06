@@ -76,8 +76,6 @@ button[type="submit"]:hover {
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-/* --- Estilização dos Alertas (Flash) --- */
-
 .alert {
     padding: 12px 15px;
     margin-bottom: 20px;
