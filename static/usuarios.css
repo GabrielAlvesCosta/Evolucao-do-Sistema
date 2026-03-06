@@ -70,6 +70,7 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
+
 .container form {
     display: inline;
 }
@@ -125,23 +126,23 @@ button {
 }
 
 .btn-limpar-grande {
+    background-color: #e74c3c;
     display: inline-block;
-    padding: 10px 20px; 
-    background-color: #ef4444;
-    color: white !important; 
+    padding: 10px 20px;     
+    color: white !important;  
     text-decoration: none;
     border-radius: 6px;
     font-weight: bold;
     font-size: 14px;
-    transition: background 0.3s ease;
     border: none;
     cursor: pointer;
     text-transform: uppercase;
+    transition: 0.2s ease-in-out;
 }
 
 .btn-limpar-grande:hover {
-    background-color: #dc2626;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background-color: #c0392b;
+    transform: translateY(-2px);
 }
 
 .acoes {
