@@ -70,7 +70,6 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
-/* botão de exclusão dentro da célula */
 .container form {
     display: inline;
 }
@@ -96,10 +95,6 @@ tbody tr:last-child td {
     font-size: 16px;
 }
 
-/* ===========================
-   BOTÕES
-=========================== */
-
 button {
     padding: 8px 14px;
     border: none;
@@ -109,7 +104,6 @@ button {
     transition: 0.3s ease;
 }
 
-/* Botão Editar */
 .btn-editar {
     background-color: #3498db;
     color: white;
@@ -120,7 +114,6 @@ button {
     transform: translateY(-2px);
 }
 
-/* Botão Excluir */
 .btn-excluir {
     background-color: #e74c3c;
     color: white;
@@ -133,9 +126,9 @@ button {
 
 .btn-limpar-grande {
     display: inline-block;
-    padding: 10px 20px;       /* Aumenta o tamanho interno */
-    background-color: #ef4444; /* Vermelho vibrante */
-    color: white !important;   /* Texto branco */
+    padding: 10px 20px; 
+    background-color: #ef4444;
+    color: white !important; 
     text-decoration: none;
     border-radius: 6px;
     font-weight: bold;
@@ -147,11 +140,10 @@ button {
 }
 
 .btn-limpar-grande:hover {
-    background-color: #dc2626; /* Escurece um pouco ao passar o mouse */
+    background-color: #dc2626;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Organização dos botões lado a lado */
 .acoes {
     display: flex;
     gap: 8px;
@@ -183,4 +175,29 @@ button {
 
 a:link, a:visited, a:hover, a:active {
   text-decoration: none;
+}
+
+.alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.alert-sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
