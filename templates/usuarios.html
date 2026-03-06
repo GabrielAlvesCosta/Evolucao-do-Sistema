@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <p style="color: white;">DEBUG - Seu CPF na Sessão: {{ session.get('usuario_cpf') }}</p>
 <div class="flash-container">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
