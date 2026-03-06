@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 30px;
+    flex-direction: column;
 }
 
 .container {
@@ -28,6 +29,7 @@ h1 {
     margin-bottom: 25px;
     color: #111827;
     font-size: 24px;
+    
 }
 
 table {
@@ -127,6 +129,26 @@ button {
 .btn-excluir:hover {
     background-color: #c0392b;
     transform: translateY(-2px);
+}
+
+.btn-limpar-grande {
+    display: inline-block;
+    padding: 10px 20px;       /* Aumenta o tamanho interno */
+    background-color: #ef4444; /* Vermelho vibrante */
+    color: white !important;   /* Texto branco */
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn-limpar-grande:hover {
+    background-color: #dc2626; /* Escurece um pouco ao passar o mouse */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* Organização dos botões lado a lado */
