@@ -22,7 +22,7 @@ body {
             border-radius: 12px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
             animation: fadeIn 0.5s ease-out;
-            text-align: center; /* Centraliza o texto da home */
+            text-align: center; 
 }
 
 h2 {
