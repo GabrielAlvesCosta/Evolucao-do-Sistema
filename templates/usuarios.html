@@ -57,32 +57,35 @@
                     <td>{{ usuario.idade }}</td>
                     <td>
                         <div class="acoes">
+                            
                             {% if session.get('cargo') == 'admin' or session.get('usuario_cpf')|string == usuario.cpf|string %}
-        <a href="{{ url_for('editar_usuario', cpf=usuario.cpf) }}">
-            <button type="button" class="btn-editar">Editar</button>
-        </a>
+                                
+                                <a href="{{ url_for('editar_usuario', cpf=usuario.cpf) }}">
+                                    <button type="button" class="btn-editar">Editar</button>
+                                </a>
 
-        <form action="{{ url_for('deletar_usuario') }}"
-              method="post"
-              onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+                                {% if session.get('cargo') == 'admin' %}
+                                    <form action="{{ url_for('deletar_usuario') }}"
+                                          method="post"
+                                          onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');"
+                                          style="display: inline;">
+                                        <input type="hidden" name="cpf" value="{{ usuario.cpf }}" />
+                                        <button type="submit" class="btn-excluir">Excluir</button>
+                                    </form>
+                                {% endif %}
 
-            <input type="hidden" name="cpf" value="{{ usuario.cpf }}" />
-            <button type="submit" class="btn-excluir">Excluir</button>
-        </form>
-        {% else %}
-                <span style="color: #999; font-size: 11px;">Sem permissão</span>
-            {% endif %}
+                            {% else %}
+                                <span style="color: #999; font-size: 11px;">Sem permissão</span>
+                            {% endif %}
 
-    </div>
+                        </div>
                     </td> 
                 </tr>
                 {% else %}
                 <tr>
                     <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
-            <strong>Nenhum usuário encontrado para "{{ busca }}".</strong>
-            <br>
-            Verifique se o Nome ou CPF estão corretos.
-        </td>
+                        <strong>Nenhum usuário encontrado.</strong>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
