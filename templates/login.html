@@ -63,9 +63,8 @@
     const inputCpf = document.getElementById('cpf_login');
 
     inputCpf.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+        let value = e.target.value.replace(/\D/g, '');
         
-        // Aplica a máscara progressivamente
         if (value.length > 0) {
             value = value.replace(/(\d{3})(\d)/, '$1.$2');
             value = value.replace(/(\d{3})(\d)/, '$1.$2');
