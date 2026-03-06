@@ -91,13 +91,15 @@ def cadastrar_usuario():
         email = request.form.get("email")
         idade = request.form.get("idade")
         senha = request.form.get("senha")
-        senha_hash = generate_password_hash(senha)
+        senha_hash = generate_password_hash(senha) # Armazena a senha de forma segura usando hash
 
         if not cpf_valido(cpf_limpo):
             flash("CPF inválido. Verifique os números digitados.", "erro")
             return render_template("cadastro-usuario.html", campos=dados)
+        # carrega usuários atuais para checar duplicatas
         usuarios = carregar_usuarios()
 
+        # evita inserir CPF repetido
         if any(u.get("cpf") == cpf_limpo for u in usuarios):
             flash("CPF já cadastrado no sistema.", "erro")
             return render_template("cadastro-usuario.html", campos=dados)
@@ -113,15 +115,18 @@ def cadastrar_usuario():
             "email": email,
             "idade": idade,
             "senha": senha_hash,
-            "cargo": "admin" if cpf_limpo == "08808494446" else "comum"
+            "cargo": "admin" if cpf_limpo == "08808494446" else "comum" # Exemplo de CPF admin
         }
 
+        # tenta salvar usando a função auxiliar
         status = salvar_usuario(usuario)
 
         if status:
+            # após cadastro redireciona para a lista de usuários
             flash("Usuário cadastrado com sucesso.", "sucesso")
             return redirect(url_for('login'))
         else:
+            # caso de erro de escrita
             flash("Não foi possível cadastrar o usuário.", "erro")
             return render_template("cadastro-usuario.html", campos=dados)
     
@@ -158,18 +163,22 @@ def buscar_usuario():
     mensagem_erro = None
 
     if termo:
+        # Limpa o termo caso o usuário digite CPF com pontos para comparar com o banco limpo
         termo_cpf_limpo = re.sub(r'\D', '', termo)
         
         for u in todos_usuarios:
+            # Comparação EXATA (Igualdade estrita)
             nome_exato = (u.get("nome") == termo) 
             cpf_exato = (u.get("cpf") == termo_cpf_limpo)
             
             if nome_exato or cpf_exato:
                 usuarios_filtrados.append(u)
         
+        # Se houve busca mas ninguém foi encontrado exatamente
         if not usuarios_filtrados:
             mensagem_erro = f"Erro: Nenhum usuário encontrado com o Nome ou CPF exato: '{termo}'"
     else:
+        # Se não houver busca, mostra todos normalmente
         usuarios_filtrados = todos_usuarios
 
     return render_template("usuarios.html", 
@@ -196,7 +205,7 @@ def ordem_usuarios():
             mensagem_erro = f"Nenhum usuário encontrado com o Nome ou CPF exato: '{termo}'"
     else:
         usuarios_filtrados = todos_usuarios
-        
+
     if ordem == "asc":
         usuarios_filtrados = sorted(usuarios_filtrados, key=lambda x: int(x.get("idade", 0)))
     elif ordem == "desc":
@@ -231,11 +240,10 @@ def buscar_usuarios():
 
 @app.route("/usuarios/editar/<cpf>", methods=["GET", "POST"])
 def editar_usuario(cpf):
-
     if "usuario_id" not in session:
         flash("Acesso negado. Por favor, faça login.", "erro")
         return redirect(url_for("login"))
-    
+
     cpf_url_limpo = re.sub(r'\D', '', str(cpf))
     cpf_sessao_limpo = re.sub(r'\D', '', str(session.get("usuario_cpf", "")))
     eh_admin = session.get("cargo") == "admin"
@@ -267,7 +275,6 @@ def editar_usuario(cpf):
         idade_str = request.form.get("idade")
         senha = request.form.get("senha")
 
-        # Tratamento de erro caso a idade venha vazia ou com formato errado
         try:
             idade = int(idade_str)
         except (ValueError, TypeError):
