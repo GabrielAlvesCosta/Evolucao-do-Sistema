@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <p style="color: white;">DEBUG - Seu CPF na Sessão: {{ session.get('usuario_cpf') }}</p>
 <div class="flash-container">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -22,12 +23,26 @@
 </div>
 
     <div class="container">
-        <h1>Usuários Cadastrados <p>Total de usuários: {{ usuarios|length }}</p> <input type="text" placeholder="Buscar por nome ou CPF">   </h1>
+        <h1>Usuários Cadastrados <p>Total de usuários: {{ usuarios|length }}</p> 
+            <span>Ordenar Idade:</span>
+    <a href="{{ url_for('ordem_usuarios', termo=busca, ordem='asc') }}" class="btn-limpar-grande" style="background-color: #3b82f6;">↑ Menor</a>
+    <a href="{{ url_for('ordem_usuarios', termo=busca, ordem='desc') }}" class="btn-limpar-grande" style="background-color: #1e40af;">↓ Maior</a>
+        <form action="{{ url_for('buscar_usuario') }}" method="GET" style="display: inline-block; margin-top: 10px;">
+                <input type="text" 
+                       name="termo" 
+                       placeholder="Buscar por nome ou CPF" 
+                       value="{{ busca if busca else '' }}"
+                       class="search-form"
+                       style="font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+                {% if busca %}
+                    <a href="{{ url_for('buscar_usuario') }}" class="btn-limpar-grande">Limpar</a>
+                {% endif %}
+            </form>
+        </h1>
         <table>
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <!-- CPF agora mostrado como identificador único -->
                     <th>CPF</th>
                     <th>E-mail</th>
                     <th>Idade</th>
@@ -43,7 +58,7 @@
                     <td>{{ usuario.idade }}</td>
                     <td>
                         <div class="acoes">
-
+                            {% if session.get('cargo') == 'admin' or session.get('usuario_cpf')|string == usuario.cpf|string %}
         <a href="{{ url_for('editar_usuario', cpf=usuario.cpf) }}">
             <button type="button" class="btn-editar">Editar</button>
         </a>
@@ -55,9 +70,20 @@
             <input type="hidden" name="cpf" value="{{ usuario.cpf }}" />
             <button type="submit" class="btn-excluir">Excluir</button>
         </form>
+        {% else %}
+                <span style="color: #999; font-size: 11px;">Sem permissão</span>
+            {% endif %}
 
     </div>
                     </td> 
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px; color: #666;">
+            <strong>Nenhum usuário encontrado para "{{ busca }}".</strong>
+            <br>
+            Verifique se o Nome ou CPF estão corretos.
+        </td>
                 </tr>
                 {% endfor %}
             </tbody>
