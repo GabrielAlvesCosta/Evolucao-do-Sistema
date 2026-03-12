@@ -22,22 +22,28 @@
 </div>
 
     <div class="container">
-        <h1>Usuários Cadastrados <p>Total de usuários: {{ usuarios|length }}</p> 
-            <span>Ordenar Idade:</span>
-    <a href="{{ url_for('ordem_usuarios', termo=busca, ordem='asc') }}" class="btn-limpar-grande" style="background-color: #3b82f6;">↑ Menor</a>
-    <a href="{{ url_for('ordem_usuarios', termo=busca, ordem='desc') }}" class="btn-limpar-grande" style="background-color: #1e40af;">↓ Maior</a>
-        <form action="{{ url_for('buscar_usuario') }}" method="GET" style="display: inline-block; margin-top: 10px;">
-                <input type="text" 
-                       name="termo" 
-                       placeholder="Buscar por nome ou CPF" 
-                       value="{{ busca if busca else '' }}"
-                       class="search-form"
-                       style="font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
-                {% if busca %}
-                    <a href="{{ url_for('buscar_usuario') }}" class="btn-limpar-grande">Limpar</a>
-                {% endif %}
-            </form>
-        </h1>
+        <div style="text-align: center; display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
+    <h1 style="margin: 0; color: #111827; font-size: 24px;">Usuários Cadastrados</h1>
+    <h2 style="margin: 0; color: #111827; font-size: 24px;">Total de usuários: {{ usuarios|length }}</h2>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+    <span style="font-size: 24px; font-weight: bold; color: #111827;">Logado como: {{ session.get('usuario_nome') }}</span>
+    <span style="font-size: 14px; font-weight: bold;text-transform: uppercase; 
+        color: {% if session.get('cargo') == 'admin' %}#1d4ed8{% else %}#374151{% endif %};">
+        {{ session.get('cargo') }}
+    </span>
+</div>
+
+<div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 20px;">
+    <strong style="font-size: 18px; color: #111827;">Ordenar Idade:</strong>
+    <a href="{{ url_for('buscar_usuarios', ordem='asc') }}" class="btn-ordenar" style="background: #3b82f6; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold;">↑ MENOR</a>
+    <a href="{{ url_for('buscar_usuarios', ordem='desc') }}" class="btn-ordenar" style="background: #1d4ed8; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold;">↓ MAIOR</a>
+    
+    <form action="{{ url_for('buscar_usuarios') }}" method="GET" style="display: inline-block; margin: 0; padding: 0; box-shadow: none; background: transparent;">
+        <input type="text" name="busca" placeholder="Buscar por nome ou CPF" style="margin: 0; padding: 10px; width: 200px; border-radius: 6px; border: 1px solid #ccc;">
+    </form>
+</div>
         <table>
             <thead>
                 <tr>
