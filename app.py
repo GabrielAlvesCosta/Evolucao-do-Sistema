@@ -92,6 +92,7 @@ def cadastrar_usuario():
         idade = request.form.get("idade")
         senha = request.form.get("senha")
         senha_hash = generate_password_hash(senha) # Armazena a senha de forma segura usando hash
+        cargo = request.form.get("cargo", "comum")
 
         if not cpf_valido(cpf_limpo):
             flash("CPF inválido. Verifique os números digitados.", "erro")
@@ -115,7 +116,7 @@ def cadastrar_usuario():
             "email": email,
             "idade": idade,
             "senha": senha_hash,
-            "cargo": "admin" if cpf_limpo == "08808494446" else "comum" # Exemplo de CPF admin
+            "cargo": cargo
         }
 
         # tenta salvar usando a função auxiliar
@@ -149,6 +150,7 @@ def login():
             session["usuario_id"] = str(usuario.get("id"))
             session["usuario_cpf"] = str(usuario.get("cpf"))
             session["cargo"] = usuario.get("cargo", "comum")
+            session["usuario_nome"] = usuario.get("nome", "Usuário")
             return redirect(url_for("buscar_usuarios"))
         else:
             flash("CPF ou Senha incorretos!", "erro")
